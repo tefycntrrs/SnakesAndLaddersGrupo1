@@ -16,8 +16,6 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Menu menu = new Menu(scanner);
-        menu.start();
 
         // Código para probar la interacción de la matriz y los datos.
         List<Square> squares = new ArrayList<>();
@@ -73,9 +71,11 @@ public class Main {
         game.setPlayers(scanner);
 
         //aca comienza la partida real con los usuarios
-        Controller controller = new Controller();
+        Menu menu = new Menu(scanner);
+        Controller controller = new Controller(game,board,menu);
         System.out.println("\n-- \uD83D\uDCBB Iniciando simulación completa de la partida \uD83D\uDCBB --");
-        controller.runGame(game, board);
+
+        controller.runGame();
 
         scanner.close();
     }
