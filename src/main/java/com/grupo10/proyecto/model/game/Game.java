@@ -15,12 +15,13 @@ public class Game {
     private int numPlayers;         // Número total de jugadores en la partida
     private String[] playerNames;   // Nombres de los jugadores
     private String winner = null;   // Almacena el nombre del jugador ganador (null si aún no hay ganador)
-
+    private ArrayList<String> winners;
 
     public Game(int numPlayers) {
         this.numPlayers = numPlayers; // Inicializa el número de jugadores
         this.players = new int[numPlayers]; // Crea un array para almacenar la posición de cada jugador
         this.playerNames = new String[numPlayers]; // Crea un array para los nombres de los jugadores
+        this.winners = new ArrayList<>();
     }
 
     //Configura los jugadores de la partida, asignando sus nombres y posiciones iniciales.
@@ -39,6 +40,10 @@ public class Game {
             playerNames[i] = name;
             players[i] = 0; // Inicializar posición del jugador
         }
+    }
+
+    public void resetPositions(){
+        Arrays.fill(players, 0);
     }
 
     public int rollDice() {
@@ -63,42 +68,22 @@ public class Game {
 
     public void setWinner(String winner) {
         this.winner = winner;
+        this.winners.add(winner);
     }
 
-    public void guardarGanadorEnRanking(String nombreGanador, int turnosJugados) {
-        Map<String, Integer> ranking = new HashMap<>();
+    public ArrayList<String> getWinners()
+    {
+        return this.winners;
+    }
 
-        File archivo = new File("ranking.txt");
-        if (archivo.exists()) {
-            try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
-                String linea;
-                while ((linea = br.readLine()) != null) {
-                    String[] partes = linea.split(" - ");
-                    if (partes.length == 2) {
-                        String nombre = partes[0].trim();
-                        int victorias = Integer.parseInt(partes[1].trim());
-                        ranking.put(nombre, victorias);
-                    }
-                }
-            } catch (IOException | NumberFormatException e) {
-                System.out.println("Error al leer ranking.txt: " + e.getMessage());
+    public int contWinner(String nombre){
+        int cont = 0;
+        for (int i  = 0; i < this.winners.size() ; i++) {
+            if(this.winners.get(i).equals(nombre)) {
+                cont++;
             }
         }
 
-        // Sumamos la victoria
-        ranking.put(nombreGanador, ranking.getOrDefault(nombreGanador, 0) + 1);
-
-        // Ordenamos de mayor a menor por cantidad de victorias
-        List<Map.Entry<String, Integer>> listaOrdenada = new ArrayList<>(ranking.entrySet());
-        listaOrdenada.sort((a, b) -> b.getValue().compareTo(a.getValue()));
-
-        // Escribimos el archivo actualizado
-        try (PrintWriter writer = new PrintWriter(new FileWriter("ranking.txt"))) {
-            for (Map.Entry<String, Integer> entry : listaOrdenada) {
-                writer.println(entry.getKey() + " - " + entry.getValue());
-            }
-        } catch (IOException e) {
-            System.out.println("Error al guardar ranking.txt: " + e.getMessage());
-        }
+        return cont;
     }
 }

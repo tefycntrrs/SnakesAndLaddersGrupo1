@@ -29,9 +29,21 @@ public class Menu {
 
     //Gestiona la entrada del usuario y ejecuta la acción correspondiente.
     public int handleInput() {
-        int opcion = scanner.nextInt();
-        return opcion;
 
+        while(true) {
+            try {
+                String opcion = scanner.next().substring(0,1);
+                if (Integer.parseInt(opcion) <= 0 || Integer.parseInt(opcion) > 3) {
+                    throw new Exception("opcion invalida");
+                }
+                return Integer.parseInt(opcion);
+            } catch (NumberFormatException e) {
+                System.out.print("Solo se permiten numeros \n Por favor ingrese una opcion : ");
+            } catch (Exception e) {
+                //mensaje de errores genericos
+                System.out.println(e.toString());
+            }
+        }
     }
     //Inicia el juego y finaliza el menú.
     private void startGame() {
@@ -39,31 +51,6 @@ public class Menu {
         running = false; // Salimos del menú para continuar con el juego
     }
 
-    // Muestra la tabla de puntajes
-    private void showScoreboard() {
-        System.out.println("\n📊 Tabla de Puntajes:");
-        System.out.println("--------------------------");
-
-        File archivo = new File("ranking.txt");
-
-        if (!archivo.exists()) {
-            System.out.println("⚠️ Aún no hay partidas registradas.");
-        } else {
-            try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
-                String linea;
-                while ((linea = br.readLine()) != null) {
-                    System.out.println("🏅 " + linea);
-                }
-            } catch (IOException e) {
-                System.out.println("Error al leer ranking.txt: " + e.getMessage());
-            }
-        }
-
-        System.out.println("--------------------------");
-        System.out.println("Presiona Enter para regresar al menú...");
-        scanner.nextLine();
-
-    }
 
     //Finaliza el programa con un mensaje de despedida.
     private void exit() {

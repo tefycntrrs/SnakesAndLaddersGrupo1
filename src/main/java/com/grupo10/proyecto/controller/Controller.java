@@ -1,9 +1,12 @@
 package com.grupo10.proyecto.controller;
 
 import com.grupo10.proyecto.model.bard.Board;
+import com.grupo10.proyecto.model.entities.RecordPlayer;
 import com.grupo10.proyecto.model.game.Game;
 import com.grupo10.proyecto.ui.Menu;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 /*
@@ -35,7 +38,6 @@ public class Controller {
     private int turnsPlayed;
     private Scanner scanner;
 
-
     // Constructor: inicializa los valores por defecto y el estado del juego.
     public Controller(Game game, Board board , Menu menu) {
         this.currentState = GameState.START;
@@ -62,10 +64,13 @@ public class Controller {
                 while (!isGameOver()) {
                     updateGameState();
                 }
+
+                resetGame();
             }
 
             if (opcion == 2) {
-                System.out.println("aca se va a mostrar la tabla");
+                System.out.println("\n Aca se va a mostrar la tabla de puntajes");
+                showWinners();
             }
 
             if (opcion == 3) {
@@ -102,6 +107,7 @@ public class Controller {
             default:
                 break;
         }
+
     }
 
     public boolean isGameOver() {
@@ -112,6 +118,7 @@ public class Controller {
         this.currentState = GameState.START;
         this.currentPlayerIndex = 0;
         this.turnsPlayed = 0;
+        this.game.resetPositions();
     }
 
     private void play() {
@@ -168,11 +175,35 @@ public class Controller {
         int boardMaxPos = board.getSize() * board.getSize() - 1;
         if (newPos >= boardMaxPos) {
             currentState = GameState.WIN;
+            game.setWinner(game.getPlayerNames()[currentPlayerIndex]);
+        } else {
+            // Cambiar al siguiente jugador (turno cíclico)
+            currentPlayerIndex = (currentPlayerIndex + 1) % game.getNumPlayers();
+        }
+    }
 
+    public void showWinners() {
+
+        String[] players = game.getPlayerNames();
+        ArrayList<RecordPlayer> tabla = new ArrayList<RecordPlayer>();
+
+        for (String player : players) {
+            int puntaje = game.contWinner(player);
+            RecordPlayer record = new RecordPlayer(player, puntaje);
+            tabla.add(record);
         }
 
-        // Cambiar al siguiente jugador (turno cíclico)
-        currentPlayerIndex = (currentPlayerIndex + 1) % game.getNumPlayers();
+        tabla.sort(new Comparator<RecordPlayer>() {
+            @Override
+            public int compare(RecordPlayer player1, RecordPlayer player2) {
+                return Integer.compare(player2.puntaje(), player1.puntaje());
+            }
+        });
+
+        System.out.println("----------------------------");
+        for(RecordPlayer recordPlayer: tabla) {
+            System.out.println("Player :" + recordPlayer.nombre() + "  Puntaje :" + recordPlayer.puntaje());
+        }
 
     }
 

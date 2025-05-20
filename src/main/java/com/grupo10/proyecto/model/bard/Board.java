@@ -8,7 +8,7 @@ import com.grupo10.proyecto.model.entities.Square;
 import java.util.List;
 import java.util.Objects;
 
-/*Representa el tablero de juego de "Snakes and Ladders".
+/*
  El tablero contiene una cuadrícula `grid` donde se ubican los jugadores y los elementos del juego:
  Serpientes (`Snake`)**: Cuando un jugador cae en la cabeza de una serpiente, desciende a la cola.
  Escaleras (`Ladder`)**: Si un jugador cae en la base de una escalera, asciende hasta la parte superior.
@@ -90,7 +90,6 @@ public class Board {
         // Devuelve la posicion actual del jugador.
         // Calcula la celda del tablero en el que se encuentra el jugador.
         char content = grid[currentPosition / size][currentPosition % size];
-
         // Devuelve un mensaje con la posicion y el contenido de la casilla.
         return "Esta en la posicion " + currentPosition + " (Contenido: " + content + ")";
     }

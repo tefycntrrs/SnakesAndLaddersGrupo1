@@ -24,6 +24,7 @@ public class Main {
 
         Board board = new Board(10, squares, snakes, ladders);
 
+        System.out.println("TABLEROS");
         System.out.println("Empty board:");
         board.printBoard();
 
@@ -44,7 +45,7 @@ public class Main {
         board.printBoard();
 
         // Simulación de interacciones individuales:
-        System.out.println("-- Simulacion de interacciones individuales: --");
+        System.out.println("\n Simulacion de interacciones individuales: ");
         int playerPosition = 3;
         System.out.println("\nEl jugador está en la posición: " + playerPosition + "(✅)");
         if (ladder1.isBottomPosition(playerPosition)) {
@@ -66,7 +67,7 @@ public class Main {
         System.out.println(" ");
         System.out.println(" ");
         // SIMULACIÓN COMPLETA DEL JUEGO CON EL GAMECONTROLLER
-        System.out.println("-- Simulacion de jugabilidad: --");
+        System.out.println("-- Comienza la partida real \n Nombres de los jugadores: --");
         Game game = new Game(4);
         game.setPlayers(scanner);
 
