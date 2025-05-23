@@ -2,11 +2,8 @@
 
 Juego serpientes y escaleras
 
-Estudiantes : 
+Estudiante : 
 ----
 
 - Esthefany Contreras
-- Alejo Gauna
-- Federico Medina
-- Alan Athis
 
