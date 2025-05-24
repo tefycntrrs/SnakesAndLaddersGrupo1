@@ -1,4 +1,4 @@
-package com.grupo10.proyecto.ui;
+package proyecto.ui;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,7 +28,7 @@ public class Menu {
     }
 
     //Gestiona la entrada del usuario y ejecuta la acción correspondiente.
-    public int handleInput() {
+    public MenuStatus handleInput() {
 
         while(true) {
             try {
@@ -36,7 +36,19 @@ public class Menu {
                 if (Integer.parseInt(opcion) <= 0 || Integer.parseInt(opcion) > 3) {
                     throw new Exception("opcion invalida");
                 }
-                return Integer.parseInt(opcion);
+
+                switch (opcion) {
+                    case "1" -> {
+                        return MenuStatus.STARTGAME;
+                    }
+                    case "2" -> {
+                        return MenuStatus.STATISTICS;
+                    }
+                    case "3" -> {
+                        return MenuStatus.ENDGAME;
+                    }
+                }
+
             } catch (NumberFormatException e) {
                 System.out.print("Solo se permiten numeros \n Por favor ingrese una opcion : ");
             } catch (Exception e) {
@@ -56,5 +68,11 @@ public class Menu {
     private void exit() {
         System.out.println("Gracias por jugar. Saliendo... \uD83D\uDC4B\uD83D\uDC4B");
         running = false;
+    }
+
+    public enum MenuStatus {
+        STARTGAME,
+        STATISTICS,
+        ENDGAME;
     }
 }

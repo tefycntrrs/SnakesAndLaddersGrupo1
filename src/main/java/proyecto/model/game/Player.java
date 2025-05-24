@@ -1,4 +1,4 @@
-package com.grupo10.proyecto.model.game;
+package proyecto.model.game;
 
 // Contiene el nombre del jugador, su posición en el tablero y su estado de victoria.
 public class Player {

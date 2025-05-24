@@ -1,28 +1,25 @@
-package com.grupo10.proyecto.main;
+package proyecto;
 
 
-import com.grupo10.proyecto.controller.Controller;
-import com.grupo10.proyecto.model.bard.Board;
-import com.grupo10.proyecto.model.entities.Ladder;
-import com.grupo10.proyecto.model.entities.Snake;
-import com.grupo10.proyecto.model.entities.Square;
-import com.grupo10.proyecto.model.game.Game;
-import com.grupo10.proyecto.ui.Menu;
+import proyecto.controller.Controller;
+import proyecto.model.board.Board;
+import proyecto.model.entities.Ladder;
+import proyecto.model.entities.Snake;
+import proyecto.model.entities.Square;
+import proyecto.model.game.Game;
+import proyecto.ui.Menu;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+
+
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
-        // Código para probar la interacción de la matriz y los datos.
-        List<Square> squares = new ArrayList<>();
-        List<Snake> snakes = new ArrayList<>();
-        List<Ladder> ladders = new ArrayList<>();
-
-        Board board = new Board(10, squares, snakes, ladders);
+        Board board = new Board();
 
         System.out.println("TABLEROS");
         System.out.println("Empty board:");
@@ -68,7 +65,7 @@ public class Main {
         System.out.println(" ");
         // SIMULACIÓN COMPLETA DEL JUEGO CON EL GAMECONTROLLER
         System.out.println("-- Comienza la partida real \n Nombres de los jugadores: --");
-        Game game = new Game(4);
+        Game game = new Game(4, board, scanner);
         game.setPlayers(scanner);
 
         //aca comienza la partida real con los usuarios

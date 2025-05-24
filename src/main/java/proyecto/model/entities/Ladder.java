@@ -1,4 +1,4 @@
-package com.grupo10.proyecto.model.entities;
+package proyecto.model.entities;
 
 public record Ladder(int bottom, int top) {
     public Ladder {

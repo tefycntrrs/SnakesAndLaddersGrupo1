@@ -1,4 +1,4 @@
-package com.grupo10.proyecto.model.entities;
+package proyecto.model.entities;
 
 public record Snake(int head, int tail) {
     public Snake{

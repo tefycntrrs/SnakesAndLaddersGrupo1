@@ -1,10 +1,11 @@
-package com.grupo10.proyecto.model.bard;
+package proyecto.model.board;
 
 
-import com.grupo10.proyecto.model.entities.Ladder;
-import com.grupo10.proyecto.model.entities.Snake;
-import com.grupo10.proyecto.model.entities.Square;
+import proyecto.model.entities.Ladder;
+import proyecto.model.entities.Snake;
+import proyecto.model.entities.Square;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,20 +21,20 @@ import java.util.Objects;
 public class Board {
     private char[][] grid;              // La grilla vacia.
     private int size;                   // Se le va a apasr lo mismo para X e Y para que sea iguales.
-    private List<Square> square;        // Lista de casillas del tablero.
-    private List<Snake> snake;          //Lista de serpientes.
-    private List<Ladder> ladder;        // Lista de escaleras.
+    private List<Square> squares;        // Lista de casillas del tablero.
+    private List<Snake> snakes;          //Lista de serpientes.
+    private List<Ladder> ladders;        // Lista de escaleras.
+
 
     //Constructor
-    public Board(int size, List<Square> square, List<Snake> snake, List<Ladder> ladder) {
-        this.size = size;
-        this.grid = new char[size][size]; // La representacion de la tabla.
-        initializeBoard();
+    public Board() {
+        this.size = 10;
+        this.squares = new ArrayList<>();
+        this.snakes = new ArrayList<>();
+        this.ladders = new ArrayList<>();
+        this.grid = new char[size][size];
 
-        //lista de square, snake, ladder
-        this.square = square;
-        this.snake = snake;
-        this.ladder = ladder;
+        initializeBoard();
     }
 
     private void initializeBoard() {
@@ -71,14 +72,14 @@ public class Board {
         }
 
         // Verifica si el jugador cae en una serpiente y ajusta su posicion
-        for (Snake s : snake){
+        for (Snake s : snakes){
             if (Objects.equals(/*s.getStartPosition()*/s.head(), newPosition)){
                 newPosition = /*s.getEndPosition()*/ s.tail(); // Retrocede segun la serpiente.
             }
         }
 
         // Verifica si el jugador cae en una escalera y ajusta su posicion.
-        for (Ladder l: ladder){
+        for (Ladder l: ladders){
             if (Objects.equals(/*l.getBottomPosition()*/l.bottom(), newPosition)){
                 newPosition = /*l.getTopPosition()*/l.top(); // Retrocede segun la serpiente.
             }
@@ -103,7 +104,7 @@ public class Board {
             // Colocar la cola de la serpiente con 's'
             grid[snakeElement.tail() / size]
                     [snakeElement.tail() % size] = 's';
-            snake.add(snakeElement);
+            snakes.add(snakeElement);
         } else if (element instanceof Ladder) {
             Ladder ladderElement = (Ladder) element;
             // Colocar la parte inferior de la escalera con 'L'
@@ -112,11 +113,23 @@ public class Board {
             // Colocar la parte superior de la escalera con 'l'
             grid[ladderElement.top() / size]
                     [ladderElement.bottom() % size] = 'l';
-            ladder.add(ladderElement);
+            ladders.add(ladderElement);
         } else if (element instanceof Square) {
             // Representar casillas genéricas con '*'
             grid[x][y] = '*';
-            square.add((Square) element);
+            squares.add((Square) element);
         }
+    }
+
+    public List<Square> getSquares() {
+        return squares;
+    }
+
+    public List<Snake> getSnakes() {
+        return snakes;
+    }
+
+    public List<Ladder> getLadders() {
+        return ladders;
     }
 }
