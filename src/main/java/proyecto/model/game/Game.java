@@ -48,7 +48,7 @@ public class Game {
 
     //Configura los jugadores de la partida, asignando sus nombres y posiciones iniciales.
 
-    public void setPlayers(Scanner scanner) {
+    public void setPlayers() {
         for (int i = 0; i < numPlayers; i++) {
             String name;
             do {

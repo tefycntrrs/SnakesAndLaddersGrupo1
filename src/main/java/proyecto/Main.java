@@ -15,15 +15,10 @@ import java.util.Scanner;
 
 public class Main {
 
-
-
-    public static void main(String[] args) {
+    public static void simulation() {
         Scanner scanner = new Scanner(System.in);
         Board board = new Board();
 
-        System.out.println("TABLEROS");
-        System.out.println("Empty board:");
-        board.printBoard();
 
         // Se añaden serpientes y escaleras
         Snake snake1 = new Snake(17, 5);
@@ -38,43 +33,55 @@ public class Main {
 
         board.placeElements(6, 3, snake2);
 
-        System.out.println("Full board:");
+        // Simulación de interacciones individuales:
+        System.out.println("\n🧩 Colocando elementos...");
+         snake1 = new Snake(17, 5);
+         snake2 = new Snake(76, 63);
+         ladder1 = new Ladder(3, 15);
+         square1 = new Square(8, 8);
+
+        board.placeElements(2, 3, snake1);    // Posición ficticia (2,3) representa la serpiente 17 -> 5
+        board.placeElements(5, 5, ladder1);   // Escalera 3 -> 15
+        board.placeElements(6, 3, snake2);    // Segunda serpiente 76 -> 63
+        board.placeElements(8, 8, square1);   // Casilla especial
+
+        System.out.println("🧩 TABLERO CON ELEMENTOS:");
         board.printBoard();
 
-        // Simulación de interacciones individuales:
-        System.out.println("\n Simulacion de interacciones individuales: ");
-        int playerPosition = 3;
-        System.out.println("\nEl jugador está en la posición: " + playerPosition + "(✅)");
-        if (ladder1.isBottomPosition(playerPosition)) {
-            playerPosition = ladder1.top();
-            System.out.println("¡El jugador subió por la escalera a la posición " + playerPosition + "!" + "(✅)");
+        // Simulación simple de interacciones con elementos
+        System.out.println("\n🧪 Simulación de interacciones individuales:");
+
+        int posEscalera = 3;
+        System.out.println("\nEl jugador está en la posición: " + posEscalera + " ✅");
+        if (ladder1.isBottomPosition(posEscalera)) {
+            posEscalera = ladder1.top();
+            System.out.println("⬆ ¡Sube por la escalera hasta la posición " + posEscalera + "! ✅");
         }
 
-        int playerPosition1 = 17;
-        System.out.println("\nEl jugador está en la posición: " + playerPosition1 + "(✅)");
-        if (snake1.isHeadPosition(playerPosition1)) {
-            playerPosition1 = snake1.tail();
-            System.out.println("¡El jugador cayó en la serpiente y bajó a la posición " + playerPosition1 + "!" + "(✅)");
+        int posSerpiente = 17;
+        System.out.println("\nEl jugador está en la posición: " + posSerpiente + " ✅");
+        if (snake1.isHeadPosition(posSerpiente)) {
+            posSerpiente = snake1.tail();
+            System.out.println("⬇ ¡Cae por la serpiente hasta la posición " + posSerpiente + "! ✅");
         }
 
-        System.out.println("\nVerificando casilla en (8,8):" + "(✅)");
+        System.out.println("\nVerificando casilla especial en (8,8): ✅");
         square1.verifyOperation(8);
-        System.out.println("-- Termmina simulacion de interacciones individuales: --" + "✅  ✅)");
-        // ------ Simulación de interacciones individuales:
-        System.out.println(" ");
-        System.out.println(" ");
-        // SIMULACIÓN COMPLETA DEL JUEGO CON EL GAMECONTROLLER
-        System.out.println("-- Comienza la partida real \n Nombres de los jugadores: --");
-        Game game = new Game(4, board, scanner);
-        game.setPlayers(scanner);
 
-        //aca comienza la partida real con los usuarios
+        System.out.println("\n✅✅ Fin de simulación de interacciones individuales.\n");
+
+    }
+
+
+    public static void main(String[] args) {
+        Main.simulation();
+
+        Scanner scanner = new Scanner(System.in);
+        Board board = new Board();
         Menu menu = new Menu(scanner);
+        Game game = new Game(4, board, scanner);
         Controller controller = new Controller(game,board,menu);
-        System.out.println("\n-- \uD83D\uDCBB Iniciando simulación completa de la partida \uD83D\uDCBB --");
-
         controller.runGame();
-
         scanner.close();
     }
 }

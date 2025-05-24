@@ -27,7 +27,7 @@ public class Controller {
     public Controller(Game game, Board board , Menu menu) {
         this.game = game;
         this.menu = menu;
-
+        game.setPlayers();
     }
 
     public void runGame() {
